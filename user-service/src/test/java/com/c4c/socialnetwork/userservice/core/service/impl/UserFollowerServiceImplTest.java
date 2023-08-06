@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class UserFollowerServiceImplTest {
-    public static final String MOBILE = "9898989898";
     @InjectMocks
     UserFollowerServiceImpl userFollowerService;
     @Mock
