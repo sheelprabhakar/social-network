@@ -1,0 +1,70 @@
+package com.c4c.socialnetwork.userservice.core.service;
+
+import com.c4c.socialnetwork.userservice.core.repository.UserRepository;
+import com.c4c.socialnetwork.userservice.core.service.impl.UserServiceImpl;
+import com.c4c.socialnetwork.userservice.entities.UserEntity;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+
+import java.util.Calendar;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+public class UserServiceImplTest {
+    @InjectMocks
+    UserServiceImpl userService;
+    @Mock
+    UserRepository userRepository;
+
+    @BeforeEach
+    void setUp() {
+        UserEntity entity = new UserEntity();
+        entity.setId(1L);
+        entity.setEmail("ssp@c4c.com");
+        entity.setIntro("");
+        entity.setMobile("9898989898");
+        entity.setProfile("");
+        entity.setLastLogin(null);
+        entity.setRegisteredAt(Calendar.getInstance());
+        entity.setLastName("prabhakar");
+        entity.setMiddleName("s");
+        entity.setPasswordHash("");
+        entity.setFirstName("sheel");
+        Mockito.when(userRepository.save(ArgumentMatchers.any()))
+                .thenReturn(entity);
+
+       Mockito.when(userRepository.findById(1L))
+                .thenReturn(Optional.of(entity));
+       Mockito.when(userRepository.findById(ArgumentMatchers.eq(100L)))
+                .thenReturn(Optional.empty());
+
+    }
+    @Test
+    public void test_save_ok(){
+        UserEntity userEntity = this.userService.save(new UserEntity());
+        assertEquals(userEntity.getId(),1);
+        assertNull(userEntity.getLastLogin());
+    }
+
+    @Test
+    public void test_get_ok(){
+        UserEntity userEntity = this.userService.findById(1L);
+        assertEquals(userEntity.getId(),1L);
+        assertNull(userEntity.getLastLogin());
+
+        userEntity = this.userService.findById(100L);
+        assertNull(userEntity);
+    }
+}

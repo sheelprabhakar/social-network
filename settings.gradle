@@ -1,0 +1,10 @@
+rootProject.name = 'social-network'
+include 'user-service'
+include 'user-get-service'
+include 'user-entities'
+include 'timeline-service'
+include 'post-service'
+include 'media-service'
+include 'media-get-service'
+include 'post-entities'
+
