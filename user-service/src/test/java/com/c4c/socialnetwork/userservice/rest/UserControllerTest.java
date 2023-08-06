@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -30,6 +31,30 @@ public class UserControllerTest extends AbstractIntegrationTest{
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.mobile").value(MOBILE));
+    }
+
+    @Test
+    public void test_update_user_ok() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "users")
+                        .content(TestUtils.convertObjectToJsonString(this.getNewUser()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                //.andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.mobile").value(MOBILE)).andReturn();
+        UserResource userResource = TestUtils
+                .convertJsonStringToObject(mvcResult.getResponse()
+                        .getContentAsString(), UserResource.class);
+        userResource.setMobile("1234567890");
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .put(BASE_URL + "users")
+                        .content(TestUtils.convertObjectToJsonString(userResource))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.mobile").value("1234567890"));
     }
 
     private UserResource getNewUser(){

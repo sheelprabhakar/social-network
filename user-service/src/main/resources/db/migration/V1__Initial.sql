@@ -1,5 +1,4 @@
 -- ref https://mysql.tutorials24x7.com/blog/guide-to-design-database-for-social-network-system-in-mysql
-
 CREATE TABLE `user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(50) NULL DEFAULT NULL,
