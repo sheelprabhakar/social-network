@@ -7,6 +7,7 @@ import com.c4c.socialnetwork.userservice.entities.UserFollowerEntity;
 import com.c4c.socialnetwork.userservice.resources.UserFollowerResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +42,13 @@ public class UserFollowerController {
         UserFollowerEntity userFollowerEntity = this.userFollowerService
                 .update(UserFollowerConverter.fromUserFollowerResource(userFollowerResource));
         return ResponseEntity.ok(UserFollowerConverter.fromUserFollowerEntity(userFollowerEntity));
+    }
+
+    @DeleteMapping("/follow")
+    public ResponseEntity<Void> delete(@RequestBody UserFollowerResource userFollowerResource){
+        this.userFollowerService
+                .delete(UserFollowerConverter.fromUserFollowerResource(userFollowerResource));
+        return ResponseEntity.noContent().build();
     }
 
 }

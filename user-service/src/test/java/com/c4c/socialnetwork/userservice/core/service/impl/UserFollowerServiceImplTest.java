@@ -76,4 +76,9 @@ public class UserFollowerServiceImplTest {
         assertEquals(userFollowerEntity.getTargetId(),2L);
         assertNotNull(userFollowerEntity.getCreatedAt());
     }
+
+    @Test
+    public void test_delete_ok(){
+        this.userFollowerService.delete(new UserFollowerEntity());
+    }
 }

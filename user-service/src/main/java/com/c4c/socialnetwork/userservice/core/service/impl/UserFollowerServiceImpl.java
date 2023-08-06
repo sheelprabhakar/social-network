@@ -28,4 +28,9 @@ public class UserFollowerServiceImpl implements UserFollowerService {
     public UserFollowerEntity findById(long id) {
         return this.repository.findById(id).orElse(null);
     }
+
+    @Override
+    public void delete(UserFollowerEntity userFollowerEntity) {
+        this.repository.delete(userFollowerEntity);
+    }
 }

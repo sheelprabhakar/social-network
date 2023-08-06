@@ -31,4 +31,8 @@ public class UserServiceImpl implements UserService {
     public UserEntity update(final UserEntity userEntity) {
         return this.userRepository.save(userEntity);
     }
+
+    public UserEntity delete(UserEntity userEntity) {
+        return this.delete(userEntity);
+    }
 }

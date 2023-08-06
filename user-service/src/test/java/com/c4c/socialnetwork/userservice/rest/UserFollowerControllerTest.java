@@ -60,7 +60,7 @@ public class UserFollowerControllerTest extends AbstractIntegrationTest{
     }
 
     @Test
-    public void test_update_user_ok() throws Exception {
+    public void test_update_user_follower_ok() throws Exception {
         long [] ids = this.intiUser(2,3);
 
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
@@ -84,6 +84,32 @@ public class UserFollowerControllerTest extends AbstractIntegrationTest{
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.targetId").value(ids[1]));
+    }
+
+    @Test
+    public void test_delete_user_follower_ok() throws Exception {
+        long [] ids = this.intiUser(4,5);
+
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "follow")
+                        .content(TestUtils.convertObjectToJsonString(this.getNewFollower(ids)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.targetId").value(ids[1]))
+                .andReturn();
+
+        UserFollowerResource userFollowerResource = TestUtils
+                .convertJsonStringToObject(mvcResult.getResponse()
+                        .getContentAsString(), UserFollowerResource.class);
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete(BASE_URL + "follow")
+                        .content(TestUtils.convertObjectToJsonString(userFollowerResource))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 
     private UserFollowerResource getNewFollower(long[]ids){
