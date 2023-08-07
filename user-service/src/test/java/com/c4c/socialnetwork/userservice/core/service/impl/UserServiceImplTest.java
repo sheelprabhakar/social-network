@@ -1,4 +1,4 @@
-package com.c4c.socialnetwork.userservice.core.service;
+package com.c4c.socialnetwork.userservice.core.service.impl;
 
 import com.c4c.socialnetwork.userservice.core.repository.UserRepository;
 import com.c4c.socialnetwork.userservice.core.service.impl.UserServiceImpl;
@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class UserServiceImplTest {
+    public static final String MOBILE = "9898989898";
     @InjectMocks
     UserServiceImpl userService;
     @Mock
@@ -34,7 +35,7 @@ public class UserServiceImplTest {
         entity.setId(1L);
         entity.setEmail("ssp@c4c.com");
         entity.setIntro("");
-        entity.setMobile("9898989898");
+        entity.setMobile(MOBILE);
         entity.setProfile("");
         entity.setLastLogin(null);
         entity.setRegisteredAt(Calendar.getInstance());
@@ -66,5 +67,13 @@ public class UserServiceImplTest {
 
         userEntity = this.userService.findById(100L);
         assertNull(userEntity);
+    }
+
+    @Test
+    public void test_update_ok(){
+        UserEntity userEntity = this.userService.update(new UserEntity());
+        assertEquals(userEntity.getId(),1);
+        assertEquals(userEntity.getMobile(),MOBILE);
+        assertNull(userEntity.getLastLogin());
     }
 }

@@ -18,12 +18,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity save(UserEntity userEntity){
+    public UserEntity save(final UserEntity userEntity){
         return this.userRepository.save(userEntity);
     }
 
     @Override
-    public UserEntity findById(long id) {
+    public UserEntity findById(final long id) {
         return this.userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public UserEntity update(final UserEntity userEntity) {
+        return this.userRepository.save(userEntity);
+    }
+
+    public UserEntity delete(UserEntity userEntity) {
+        return this.delete(userEntity);
     }
 }

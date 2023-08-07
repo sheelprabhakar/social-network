@@ -24,10 +24,11 @@ public class UserFollowerEntity {
 
     @Column(name = "sourceId",  nullable = false)
     private Long sourceId;
+
     @Column(name = "targetId",  nullable = false)
     private Long targetId;
 
-    @Column(name = "targetId",  nullable = false)
+    @Column(name = "type",  nullable = false)
     private int type;
 
     @Column(name = "createdAt")

@@ -1,1 +1,1 @@
-docker-compose -f mysql-group3-replication-compose.yml up
+docker-compose -f mysql-group3-replication-compose.yml -f redis.yml up
