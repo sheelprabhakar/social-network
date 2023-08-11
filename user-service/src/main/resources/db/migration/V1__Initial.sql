@@ -71,3 +71,52 @@ CREATE TABLE `user` (
 
 
   ALTER TABLE `user_follower` ADD UNIQUE `uq_ufollower`(`sourceId`, `targetId`, `type`);
+  
+  CREATE TABLE `user_post` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `userId` BIGINT NOT NULL,
+    `senderId` BIGINT NOT NULL,
+    `message` TINYTEXT NULL DEFAULT NULL,
+    `createdAt` DATETIME NOT NULL,
+    `updatedAt` DATETIME NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `idx_upost_user` (`userId` ASC),
+    CONSTRAINT `fk_upost_user`
+      FOREIGN KEY (`userId`)
+      REFERENCES `user` (`id`)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION);
+  
+  ALTER TABLE `user_post` 
+  ADD INDEX `idx_upost_sender` (`senderId` ASC);
+  ALTER TABLE `user_post` 
+  ADD CONSTRAINT `fk_upost_sender`
+    FOREIGN KEY (`senderId`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
+
+  CREATE TABLE `user_comment` (
+      `id` BIGINT NOT NULL AUTO_INCREMENT,
+      `postId` BIGINT NOT NULL,
+      `senderId` BIGINT NOT NULL,
+      `message` TINYTEXT NULL DEFAULT NULL,
+      `parentCommentId` BIGINT NULL DEFAULT NULL,
+      `createdAt` DATETIME NOT NULL,
+      `updatedAt` DATETIME NULL DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      INDEX `idx_ucomment_post` (`postId` ASC),
+      CONSTRAINT `fk_ucomment_post`
+        FOREIGN KEY (`postId`)
+        REFERENCES `user_post` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION);
+
+    ALTER TABLE `user_comment`
+    ADD INDEX `idx_ucomment_sender` (`senderId` ASC);
+    ALTER TABLE `user_comment`
+    ADD CONSTRAINT `fk_ucomment_sender`
+      FOREIGN KEY (`senderId`)
+      REFERENCES `user` (`id`)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION;
