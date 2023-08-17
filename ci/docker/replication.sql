@@ -18,3 +18,5 @@ GRANT ALL ON *.* TO 'app-user'@'%';
 FLUSH PRIVILEGES;
 
 CREATE SCHEMA `sns_test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+mysql -uroot -p
