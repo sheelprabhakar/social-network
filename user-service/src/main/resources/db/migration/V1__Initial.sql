@@ -120,3 +120,53 @@ CREATE TABLE `user` (
       REFERENCES `user` (`id`)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION;
+
+  CREATE TABLE `user_notification` (
+      `id` BIGINT NOT NULL AUTO_INCREMENT,
+      `userId` BIGINT NOT NULL,
+      `message` TINYTEXT NULL DEFAULT NULL,
+      `status`  SMALLINT NOT NULL DEFAULT 0,
+      `createdAt` DATETIME NOT NULL,
+      `updatedAt` DATETIME NULL DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      INDEX `idx_unotification_user` (`userId` ASC),
+      CONSTRAINT `fk_unotification_user`
+        FOREIGN KEY (`userId`)
+        REFERENCES `user` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION);
+
+  CREATE TABLE `user_media` (
+        `id` BIGINT NOT NULL AUTO_INCREMENT,
+        `userId` BIGINT NOT NULL,
+        `resourceUri` TINYTEXT NULL DEFAULT NULL,
+        `createdAt` DATETIME NOT NULL,
+        `updatedAt` DATETIME NULL DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        INDEX `idx_umedia_media` (`userId` ASC),
+        CONSTRAINT `fk_umedia_media`
+          FOREIGN KEY (`userId`)
+          REFERENCES `user` (`id`)
+          ON DELETE NO ACTION
+          ON UPDATE NO ACTION);
+
+
+    CREATE TABLE `user_post_media` (
+            `id` BIGINT NOT NULL AUTO_INCREMENT,
+            `postId` BIGINT NOT NULL,
+            `mediaId` BIGINT NOT NULL,
+            `createdAt` DATETIME NOT NULL,
+            `updatedAt` DATETIME NULL DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            INDEX `idx_upostmedia_postmedia` (`postid` ASC),
+            CONSTRAINT `fk_upostmedia_postmedia`
+              FOREIGN KEY (`postId`)
+              REFERENCES `user_post` (`id`)
+              ON DELETE NO ACTION
+              ON UPDATE NO ACTION);
+    ALTER TABLE `user_post_media`
+        ADD CONSTRAINT `fk_upostmedia_media`
+          FOREIGN KEY (`mediaId`)
+          REFERENCES `user_media` (`id`)
+          ON DELETE NO ACTION
+          ON UPDATE NO ACTION;
