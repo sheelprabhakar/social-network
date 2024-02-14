@@ -1,9 +1,6 @@
-- name: Get token for self-hosted runner registration
-  uses: roncsak/getRunnerToken@v1.0.0
-  id: runnerRegistration
+steps:
+- uses: actions/first-interaction@v1
   with:
-    token: ${{ secrets.PAT }}
-- name: Use the token in subsequent steps
-  run: |
-    echo ${{ steps.runnerRegistration.outputs.token }}
-    echo "Your token expires at: ${{ steps.runnerRegistration.outputs.expires_at }}"
+    repo-token: ${{ secrets.GITHUB_TOKEN }}
+    issue-message: '# Message with markdown.\nThis is the message that will be displayed on users' first issue.'
+    pr-message: 'Message that will be displayed on users' first pr. Look, a `code block` for markdown.'
